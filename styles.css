@@ -749,3 +749,45 @@ footer {
 .btn.primary-btn:hover {
     background-color: #0056b3; /* Darker blue on hover */
 }
+
+.skill-items {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Reduce this if text feels too far from icon */
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    max-width: 250px;
+}
+
+.skill-info i {
+    font-size: 28px;  /* Increased icon size */
+    color: #007bff;
+    width: 30px;       /* Ensures icons are aligned even if they vary slightly */
+    text-align: center;
+}
+
+.skill-info h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+.skills-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px; /* adjust spacing between columns */
+}
+
+/* Each skill column */
+.skill-category {
+    flex: 1 1 30%; /* Grow, shrink, and base width: you can adjust 30% to fit more/less */
+    min-width: 250px; /* Prevents items from becoming too narrow on smaller screens */
+}

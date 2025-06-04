@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real-Time Sign Language Recognition | Sagar S S</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Portfolio</div>
+        <ul class="nav-links">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="index.html#about">About</a></li>
+          <li><a href="index.html#skills">Skills</a></li>
+          <li><a href="index.html#projects">Projects</a></li>
+          <li><a href="index.html#google-domain">Domain</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" style="padding-top: 180px;">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Real-Time Sign Language Gesture Recognition</h1>
+        <h2>with Facial Emotion Integration</h2>
+        <p>
+          A lightweight and real-time multimodal deep learning system combining gesture recognition and facial emotion detection to interpret sign language more accurately and contextually.
+        </p>
+        <a href="https://github.com/Sagarss2664/Real-Time-Sign-Language-Gesture-Recognition-with-Facial-Expression-Integration" target="_blank" class="btn primary-btn">View GitHub Repo</a>
+      </div>
+      <div class="hero-image">
+        <div class="image-container">
+          <img src="RSLRS.png" alt="Sign Language Recognition System">
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <section class="about">
+  <div class="container">
+    <h2 class="section-title">Introduction & Problem Statement</h2>
+    <div class="about-content single-column">
+      <div class="about-text">
+        <p>
+          Sign language is an important way for deaf and hard-of-hearing people to talk with others. Most existing sign language systems focus only on the hand movements and try to turn them into text or speech. But these systems miss something very important — <strong>emotions</strong>.
+        </p>
+        <p>
+          For example, if a person signs “I need water,” a regular model will understand the sentence. But it won't know why they need water. Are they thirsty? Are they upset? Or do they need it for something else like taking medicine or mixing with something? Without emotions, we lose the full meaning of what they are trying to say.
+        </p>
+        <p>
+          Our project solves this problem by adding <strong>facial emotion detection</strong> to the system. It looks at both the hand gestures and the person’s facial expression. This helps the system understand not just what the person is saying, but also <strong>how they feel</strong> while saying it. This makes the communication more complete, natural, and human-like.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <section class="about">
+    <div class="container">
+      <h2 class="section-title">Project Overview</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <h3>Abstract</h3>
+          <p>
+            We present a real-time multimodal sign language recognition framework that combines CNN-LSTM-based gesture classification with DeepFace-based facial emotion detection. The fusion of these two modalities allows for a comprehensive interpretation of sign language that includes both motion and emotional context. The system is optimized for real-time performance and is capable of running on standard hardware like a webcam-enabled laptop.
+          </p>
+          <h3>Use Case Context</h3>
+          <p>
+            You might wonder — aren't sign language models already available? Yes, but existing models often stop at detecting what is being said. They ignore how it's being said. For instance, a person signing “I need water” could be requesting it because they are genuinely thirsty or perhaps emotionally distressed. Traditional systems fail to make that distinction. Our system fills this critical gap, adding empathy and accuracy to automated sign recognition.
+          </p>
+        </div>
+        <div class="about-image">
+          <img src="architecture.png" alt="Model Architecture">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="skills">
+    <div class="container">
+      <h2 class="section-title">Model Architecture & Techniques</h2>
+      <div class="skills-content">
+        <div class="skill-category">
+          <div class="skill-items">
+            <div class="skill-item"><div class="skill-info"><i class="fas fa-brain"></i><h4>MobileNetV2</h4></div></div>
+            <div class="skill-item"><div class="skill-info"><i class="fas fa-wave-square"></i><h4>LSTM</h4></div></div>
+            <div class="skill-item"><div class="skill-info"><i class="fas fa-user"></i><h4>DeepFace</h4></div></div>
+            <div class="skill-item"><div class="skill-info"><i class="fas fa-camera"></i><h4>Webcam Inference</h4></div></div>
+          </div>
+        </div>
+
+        <div class="skill-category">
+          <h3>Preprocessing Pipeline</h3>
+          <ul>
+            <li>Frame extraction from video (30 frames per clip)</li>
+            <li>Resize frames to 224x224 pixels</li>
+            <li>Normalize pixel values to [0, 1]</li>
+            <li>Extract facial features using DeepFace</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Evaluation Metrics</h3>
+          <ul>
+            <li><strong>Accuracy:</strong> 91.3%</li>
+            <li><strong>Precision:</strong> 89.8%</li>
+            <li><strong>Recall:</strong> 90.2%</li>
+            <li>Real-time latency maintained below 250ms</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <h2 class="section-title">Implementation Details</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <h3>Dataset</h3>
+          <p>
+            The Small WLASL dataset was used for training the gesture recognition stream. It includes 50 commonly used American Sign Language gestures, performed by a single signer. Frames were extracted, resized, padded, and normalized before being passed to MobileNetV2 and LSTM layers.
+          </p>
+          <h3>Real-Time Integration</h3>
+          <p>
+            A webcam interface captures live video. Each frame is simultaneously sent through two streams: gesture recognition (CNN-LSTM) and facial expression analysis (DeepFace). The results are fused into a final contextual output displayed on the screen.
+          </p>
+        </div>
+        <!-- <div class="about-image">
+          <img src="future_scope_image.jpg" alt="Real-Time Fusion Illustration">
+        </div> -->
+      </div>
+    </div>
+  </section>
+
+  <section class="skills">
+    <div class="container">
+      <h2 class="section-title">Conclusion & Future Work</h2>
+      <div class="skills-content">
+        <div class="skill-category">
+          <h3>Conclusion</h3>
+          <ul>
+            <li>Multimodal fusion significantly improves contextual understanding in SLR.</li>
+            <li>Empowers more humane and empathetic interaction with AI systems.</li>
+            <li>Achieves real-time performance on non-specialized hardware.</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Future Enhancements</h3>
+          <ul>
+            <li>Train on diverse, multi-signer datasets</li>
+            <li>Expand gesture vocabulary to 500+ classes</li>
+            <li>Deploy on mobile and edge devices with model pruning</li>
+            <li>Introduce audio or lip movement as a third modality</li>
+          </ul>
+        </div>
+
+        <div class="skill-category">
+          <h3>Impact</h3>
+          <p>
+            This project contributes to accessible technology by interpreting not just signs, but the emotions behind them — bringing machines one step closer to understanding human language in its truest form.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; Sagar Subhas Shegunashi. All Rights Reserved.</p>
+        <div class="footer-links">
+          <a href="index.html#home">Home</a>
+          <a href="index.html#about">About</a>
+          <a href="index.html#skills">Skills</a>
+          <a href="index.html#projects">Projects</a>
+          <a href="index.html#google-domain">Domain</a>
+          <a href="index.html#contact">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+  </script>
+</body>
+</html>

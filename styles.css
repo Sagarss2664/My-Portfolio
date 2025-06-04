@@ -791,3 +791,11 @@ footer {
     flex: 1 1 30%; /* Grow, shrink, and base width: you can adjust 30% to fit more/less */
     min-width: 250px; /* Prevents items from becoming too narrow on smaller screens */
 }
+.about-content.single-column {
+  grid-template-columns: 1fr !important;
+}
+
+.about-content.single-column .about-text {
+  max-width: 900px;
+  margin: 0 auto;
+}

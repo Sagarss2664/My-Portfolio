@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Google Maps Algorithms: Complete Guide</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+    .container {
+      width: 85%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    /* Header styles */
+    header {
+      background: #4285F4;
+      color: white;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+    .nav-links li {
+      margin-left: 2rem;
+    }
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+    .nav-links a:hover {
+      text-decoration: underline;
+    }
+    .hamburger {
+      display: none;
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+    
+    /* Section styles */
+    section {
+      padding: 3rem 0;
+    }
+    .section-title {
+      color: #4285F4;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 2rem;
+      position: relative;
+    }
+    .section-title:after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: #34A853;
+      margin: 0.5rem auto;
+    }
+    
+    /* Hero section */
+    .hero {
+      background: linear-gradient(135deg, #4285F4, #34A853);
+      color: white;
+      padding: 5rem 0;
+      text-align: center;
+    }
+    .hero-content h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-image {
+      margin-top: 3rem;
+    }
+    .image-container {
+      width: 100%;
+      height: 100px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      border: 2px dashed rgba(255,255,255,0.3);
+    }
+    
+    /* Content styles */
+    .about-content {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+    .single-column {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .algorithm-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #4285F4;
+    }
+    .algorithm-title {
+      color: #4285F4;
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+    
+    /* Code blocks */
+    code {
+      background: #2d2d2d;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.9rem;
+    }
+    pre {
+      background: #2d2d2d;
+      padding: 1.2rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      color: #ffffff;
+      font-family: 'Courier New', Courier, monospace;
+      line-height: 1.5;
+      margin: 1.5rem 0;
+    }
+    
+    /* Tables */
+    .complexity-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .complexity-table th {
+      background: #4285F4;
+      color: white;
+      text-align: left;
+    }
+    .complexity-table th, .complexity-table td {
+      border: 1px solid #ddd;
+      padding: 0.8rem;
+    }
+    .complexity-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    /* Footer */
+    footer {
+      background: #202124;
+      color: white;
+      text-align: center;
+      padding: 2.5rem 0;
+      margin-top: 3rem;
+    }
+    
+    /* TOC */
+    .toc {
+      background: rgb(21, 2, 2);
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 3rem;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+    }
+    .toc h3 {
+      margin-top: 0;
+      color: #4285F4;
+    }
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+      columns: 2;
+    }
+    .toc li {
+      margin-bottom: 0.8rem;
+      break-inside: avoid;
+    }
+    .toc a {
+      color: #4285F4;
+      text-decoration: none;
+      font-weight: 500;
+      display: block;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      transition: 0.2s;
+    }
+    .toc a:hover {
+      background: #f1f8fe;
+      text-decoration: none;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: #4285F4;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .nav-links li {
+        margin: 0.5rem 0;
+      }
+      .hamburger {
+        display: block;
+      }
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+      .toc ul {
+        columns: 1;
+      }
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      .hero-image2 {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.image-container2 {
+  width: 350px; /* Fixed width */
+  height: 200px; /* Fixed height */
+  overflow: hidden;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  border: 2px dashed rgba(255,255,255,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.image-container2 img {
+  width: 100% !important; /* Force width */
+  height: 100% !important; /* Force height */
+  object-fit: contain !important; /* Maintain aspect ratio */
+  display: block !important;
+}
+
+.image-container2 p {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 5px 0;
+  margin: 0;
+  font-size: 12px;
+}
+ 
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">MapsAlgo</div>
+        <ul class="nav-links">
+          <li><a href="#intro">Introduction</a></li>
+          <li><a href="#toc">Contents</a></li>
+          <li><a href="#algorithms">Algorithms</a></li>
+          <li><a href="#evolution">Evolution</a></li>
+          <li><a href="#future">Future</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" id="intro">
+    <div class="container">
+      <div class="hero-content">
+        <h1>How Google Maps Works: Complete Algorithm Guide</h1>
+        <p>From basic pathfinding to AI-powered traffic predictions - understanding the tech behind the world's most popular navigation app</p>
+      </div>
+      <div class="hero-image2">
+  <div class="image-container2">
+    <img src="map.gif" alt="Description" class="responsive-gif">
+    <p>Image Caption</p>
+  </div>
+</div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <div class="toc" id="toc">
+        <h3>Complete Table of Contents</h3>
+        <ul>
+          <li><a href="#intro">1. Introduction to Google Maps</a></li>
+          <li><a href="#objectives">2. Objectives & Business Impact</a></li>
+          <li><a href="#geocoding">3. Finding Places (Geocoding)</a></li>
+          <li><a href="#dijkstra">4. Dijkstra's Algorithm</a></li>
+          <li><a href="#astar">5. A* Search Algorithm</a></li>
+          <li><a href="#traffic">6. Real-Time Traffic Handling</a></li>
+          <li><a href="#rendering">7. Map Rendering (QuadTrees)</a></li>
+          <li><a href="#search">8. Instant Search (Trie)</a></li>
+          <li><a href="#evolution">9. Algorithm Evolution Timeline</a></li>
+          <li><a href="#future">10. Future of Mapping Tech</a></li>
+          <li><a href="#efficiency">11. Efficiency Analysis</a></li>
+          <li><a href="#conclusion">12. Conclusion & Takeaways</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="objectives">
+    <div class="container">
+      <h2 class="section-title">Google Maps: Objectives & Business Impact</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <h3>Core Objectives</h3>
+          <ul>
+            <li><strong>Real-time navigation:</strong> Provide accurate directions with live updates</li>
+            <li><strong>Multi-modal transport:</strong> Support driving, walking, cycling, and public transit</li>
+            <li><strong>Business integration:</strong> Help businesses with location visibility and analytics</li>
+            <li><strong>Urban planning:</strong> Assist governments with traffic management and infrastructure</li>
+            <li><strong>Developer platform:</strong> Offer APIs for location-based applications</li>
+          </ul>
+          
+          <h3>Business Impact Metrics</h3>
+          <table class="complexity-table">
+            <tr>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Impact</th>
+            </tr>
+            <tr>
+              <td>Monthly Active Users</td>
+              <td>1+ billion</td>
+              <td>Global reach</td>
+            </tr>
+            <tr>
+              <td>Daily Navigation Requests</td>
+              <td>500+ million</td>
+              <td>Massive scale</td>
+            </tr>
+            <tr>
+              <td>Data Processed</td>
+              <td>20+ petabytes</td>
+              <td>Big data challenge</td>
+            </tr>
+            <tr>
+              <td>CO₂ Savings</td>
+              <td>1.2M+ tons/year</td>
+              <td>Environmental impact</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="geocoding">
+    <div class="container">
+      <h2 class="section-title">1. Finding Places: Geocoding Technology</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <p>When you search for "Eiffel Tower", Google converts this to coordinates (48.8584° N, 2.2945° E) in milliseconds using:</p>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Trie Data Structure</h3>
+            <p>Enables instant search-as-you-type functionality:</p>
+            <pre><code>class TrieNode:
+    def __init__(self):
+        self.children = {}  # Char → TrieNode
+        self.is_end = False  # Marks complete words
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_word = True
+    
+    def search(self, prefix):
+        # Returns all words starting with prefix
+        node = self.root
+        for char in prefix:
+            if char not in node.children:
+                return []
+            node = node.children[char]
+        return self._get_words(node, prefix)</code></pre>
+            <p><strong>Why it matters:</strong> Without Tries, search would be as slow as scanning every location name one by one.</p>
+          </div>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Geohashing</h3>
+            <p>Converts coordinates to short strings for fast lookups:</p>
+            <pre><code>import geohash2
+
+# Convert coordinates to geohash
+lat, lon = 48.8584, 2.2945  # Eiffel Tower
+geo_hash = geohash2.encode(lat, lon, precision=7)
+# Returns "u09tvw1"</code></pre>
+            <p><strong>How it works:</strong></p>
+            <ol>
+              <li>Divide Earth into 32x32 grid (base32 characters)</li>
+              <li>Each character adds precision (5 bits)</li>
+              <li>Nearby places share prefix (spatial locality)</li>
+            </ol>
+            <table class="complexity-table">
+              <tr>
+                <th>Precision</th>
+                <th>Cell Size</th>
+                <th>Example</th>
+              </tr>
+              <tr>
+                <td>1 char</td>
+                <td>5,000km × 5,000km</td>
+                <td>"u"</td>
+              </tr>
+              <tr>
+                <td>4 chars</td>
+                <td>20km × 20km</td>
+                <td>"u09t"</td>
+              </tr>
+              <tr>
+                <td>6 chars</td>
+                <td>1km × 1km</td>
+                <td>"u09tvw"</td>
+              </tr>
+              <tr>
+                <td>12 chars</td>
+                <td>3.7cm × 3.7cm</td>
+                <td>"u09tvw1b5f2x"</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="dijkstra">
+    <div class="container">
+      <h2 class="section-title">2. Dijkstra's Algorithm: The Foundation</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <p>Google Maps originally used Dijkstra's algorithm (1956) for routing:</p>
+          
+         <div class="image-container2" style="margin: 1rem 0;">
+  <img src="DJ.gif" alt="Description" class="responsive-gif">
+  <p style="text-align: center;">Dijkstra's Algorithm Visualization</p>
+</div>
+
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">How Dijkstra's Works</h3>
+            <ol>
+              <li>Treats all roads as connections in a graph</li>
+              <li>Visits intersections (nodes) in order of distance from start</li>
+              <li>Guarantees finding the shortest path</li>
+            </ol>
+            
+            <h4>Python Implementation:</h4>
+            <pre><code>import heapq
+
+def dijkstra(graph, start):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    queue = [(0, start)]
+    visited = set()
+    
+    while queue:
+        current_dist, current_node = heapq.heappop(queue)
+        if current_node in visited:
+            continue
+        visited.add(current_node)
+        
+        for neighbor, weight in graph[current_node].items():
+            distance = current_dist + weight
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(queue, (distance, neighbor))
+    
+    return distances</code></pre>
+            
+            <h4>Performance Analysis:</h4>
+            <table class="complexity-table">
+              <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Implications</th>
+              </tr>
+              <tr>
+                <td>Time Complexity</td>
+                <td>O((V+E) log V)</td>
+                <td>Too slow for continent-scale maps</td>
+              </tr>
+              <tr>
+                <td>Space Complexity</td>
+                <td>O(V)</td>
+                <td>Manages memory well</td>
+              </tr>
+              <tr>
+                <td>Real-world Performance</td>
+                <td>~1-5 seconds for city routes</td>
+                <td>Unacceptable for live navigation</td>
+              </tr>
+            </table>
+          </div>
+          
+          <h3>Why Google Moved Beyond Dijkstra's</h3>
+          <ul>
+            <li><strong>No directionality:</strong> Explores equally in all directions</li>
+            <li><strong>No traffic awareness:</strong> Treats all roads as static</li>
+            <li><strong>No hierarchy:</strong> Processes small streets same as highways</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="astar">
+    <div class="container">
+      <h2 class="section-title">3. A* Search: The Speed Upgrade</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <p>Google upgraded to A* search (1968) for faster navigation:</p>
+          
+          <div class="image-container2" style="margin: 1rem 0;">
+<div class="image-container2" style="margin: 1rem 0;">
+  <img src="A.gif" alt="Description" class="responsive-gif">
+  <p style="text-align: center;">A* Algorithm Visualization</p>
+          </div>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Key Improvements</h3>
+            <ul>
+              <li><strong>Heuristic function:</strong> Estimates distance to target</li>
+              <li><strong>Directional search:</strong> Focuses towards destination</li>
+              <li><strong>Priority adjustment:</strong> Balances distance traveled + estimated remaining</li>
+            </ul>
+            
+            <h4>Python Implementation:</h4>
+            <pre><code>def haversine(node, goal):
+    # Calculate straight-line distance between coordinates
+    lat1, lon1 = node
+    lat2, lon2 = goal
+    # ... implementation omitted ...
+    return distance_in_km
+
+def a_star(graph, start, goal):
+    open_set = PriorityQueue()
+    open_set.put((0, start))
+    came_from = {}
+    g_score = {node: float('inf') for node in graph}
+    g_score[start] = 0
+    f_score = {node: float('inf') for node in graph}
+    f_score[start] = haversine(start, goal)
+    
+    while not open_set.empty():
+        _, current = open_set.get()
+        if current == goal:
+            return reconstruct_path(came_from, current)
+        
+        for neighbor, weight in graph[current].items():
+            tentative_g = g_score[current] + weight
+            if tentative_g < g_score[neighbor]:
+                came_from[neighbor] = current
+                g_score[neighbor] = tentative_g
+                f_score[neighbor] = tentative_g + haversine(neighbor, goal)
+                open_set.put((f_score[neighbor], neighbor))
+    
+    return None  # No path found</code></pre>
+            
+            <h4>Performance Comparison:</h4>
+            <table class="complexity-table">
+              <tr>
+                <th>Algorithm</th>
+                <th>Time Complexity</th>
+                <th>Nodes Explored</th>
+                <th>Real-world Speed</th>
+              </tr>
+              <tr>
+                <td>Dijkstra's</td>
+                <td>O((V+E) log V)</td>
+                <td>All directions</td>
+                <td>1-5 seconds</td>
+              </tr>
+              <tr>
+                <td>A*</td>
+                <td>O((V+E) log V)</td>
+                <td>Directional</td>
+                <td>0.1-1 second</td>
+              </tr>
+            </table>
+          </div>
+          
+          <h3>Limitations of A*</h3>
+          <ul>
+            <li><strong>Heuristic quality:</strong> Bad estimates reduce effectiveness</li>
+            <li><strong>Dynamic changes:</strong> Still struggles with live traffic</li>
+            <li><strong>Continental scale:</strong> Not optimal for cross-country routes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="traffic">
+    <div class="container">
+      <h2 class="section-title">4. Handling Real-Time Traffic</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <p>Modern Google Maps combines multiple approaches for traffic-aware routing:</p>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Time-Dependent Dijkstra's</h3>
+            <p>Modification that accounts for changing road speeds:</p>
+            <pre><code>def time_dependent_dijkstra(graph, start, departure_time):
+    distances = {node: float('inf') for node in graph}
+    distances[start] = 0
+    queue = [(0, start, departure_time)]
+    
+    while queue:
+        current_dist, current_node, current_time = heapq.heappop(queue)
+        # Get traffic pattern for current time
+        traffic_factor = get_traffic(current_node, current_time)
+        
+        for neighbor, base_weight in graph[current_node].items():
+            # Adjust weight based on traffic
+            actual_weight = base_weight * traffic_factor
+            distance = current_dist + actual_weight
+            
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                arrival_time = current_time + timedelta(minutes=actual_weight)
+                heapq.heappush(queue, (distance, neighbor, arrival_time))
+    
+    return distances</code></pre>
+            <p><strong>Data Sources:</strong></p>
+            <ul>
+              <li>Historical traffic patterns (aggregated over years)</li>
+              <li>Real-time GPS data from phones and vehicles</li>
+              <li>Waze incident reports (accidents, construction)</li>
+            </ul>
+          </div>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Floyd-Warshall for Traffic Hotspots</h3>
+            <p>Precomputes shortest paths for emergency rerouting:</p>
+            <pre><code>def floyd_warshall(graph):
+    dist = {u: {v: float('inf') for v in graph} for u in graph}
+    for u in graph:
+        dist[u][u] = 0
+        for v, weight in graph[u].items():
+            dist[u][v] = weight
+    
+    for k in graph:
+        for i in graph:
+            for j in graph:
+                if dist[i][j] > dist[i][k] + dist[k][j]:
+                    dist[i][j] = dist[i][k] + dist[k][j]
+    
+    return dist</code></pre>
+            <p><strong>Use Case:</strong> When major accidents occur, precomputed alternatives save computation time.</p>
+          </div>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Machine Learning Predictions</h3>
+            <p>LSTM networks predict future traffic conditions:</p>
+            <pre><code>from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+
+def build_traffic_model(input_shape):
+    model = Sequential([
+        LSTM(128, input_shape=input_shape, return_sequences=True),
+        LSTM(64),
+        Dense(32, activation='relu'),
+        Dense(1)  # Predicted speed
+    ])
+    model.compile(optimizer='adam', loss='mse')
+    return model
+
+# Sample training data:
+# Input: [road_segment, hour_of_day, day_of_week, weather]
+# Output: speed_multiplier (0.5-1.5)</code></pre>
+            <p><strong>Impact:</strong> Predicts slowdowns before they happen, suggesting alternative routes proactively.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="rendering">
+    <div class="container">
+      <h2 class="section-title">5. Efficient Map Rendering</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <p>Google Maps uses spatial data structures for smooth zooming/panning:</p>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">QuadTrees for Map Tiles</h3>
+            <p>Hierarchical structure for efficient spatial queries:</p>
+            <pre><code>class QuadTreeNode:
+    def __init__(self, bounds, capacity=4):
+        self.bounds = bounds  # (min_x, min_y, max_x, max_y)
+        self.capacity = capacity
+        self.points = []
+        self.divided = False
+    
+    def insert(self, point):
+        if not self._contains(point):
+            return False
+        
+        if len(self.points) < self.capacity:
+            self.points.append(point)
+            return True
+        
+        if not self.divided:
+            self._subdivide()
+        
+        return (self.northeast.insert(point) or
+                self.northwest.insert(point) or
+                self.southeast.insert(point) or
+                self.southwest.insert(point))
+    
+    def _subdivide(self):
+        # Divide into 4 quadrants
+        x_mid = (self.bounds[0] + self.bounds[2]) / 2
+        y_mid = (self.bounds[1] + self.bounds[3]) / 2
+        # Create 4 child nodes...
+        self.divided = True
+    
+    def query_range(self, range_bounds):
+        points_in_range = []
+        if not self._intersects(range_bounds):
+            return points_in_range
+        
+        for point in self.points:
+            if self._point_in_range(point, range_bounds):
+                points_in_range.append(point)
+        
+        if self.divided:
+            points_in_range.extend(self.northeast.query_range(range_bounds))
+            points_in_range.extend(self.northwest.query_range(range_bounds))
+            points_in_range.extend(self.southeast.query_range(range_bounds))
+            points_in_range.extend(self.southwest.query_range(range_bounds))
+        
+        return points_in_range</code></pre>
+            <p><strong>Benefits:</strong></p>
+            <ul>
+              <li>Only loads visible tiles at current zoom level</li>
+              <li>Dynamically adjusts detail level</li>
+              <li>Efficient collision detection for markers</li>
+            </ul>
+          </div>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Google's S2 Geometry</h3>
+            <p>Advanced spherical geometry for global mapping:</p>
+            <pre><code># Using the S2 Geometry library (conceptual)
+import s2
+
+def latlng_to_cellid(lat, lng, level=15):
+    point = s2.S2LatLng.FromDegrees(lat, lng)
+    cell_id = s2.S2CellId.FromLatLng(point).parent(level)
+    return cell_id.id()
+
+# Example:
+eiffel_tower_cell = latlng_to_cellid(48.8584, 2.2945)
+# Returns a 64-bit integer representing the area</code></pre>
+            <p><strong>Key Features:</strong></p>
+            <ul>
+              <li>Earth divided into hierarchical cells</li>
+              <li>Fast proximity searches (find nearby places)</li>
+              <li>Region covering (e.g., "show all restaurants in Paris")</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="search">
+    <div class="container">
+      <h2 class="section-title">6. Instant Search Functionality</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <p>Google Maps provides real-time search suggestions using:</p>
+          
+          <div class="algorithm-card">
+            <h3 class="algorithm-title">Trie + Levenshtein Distance</h3>
+            <p>Combines prefix search with typo tolerance:</p>
+            <pre><code>def levenshtein_distance(s1, s2):
+    if len(s1) < len(s2):
+        return levenshtein_distance(s2, s1)
+    
+    if len(s2) == 0:
+        return len(s1)
+    
+    previous_row = range(len(s2) + 1)
+    for i, c1 in enumerate(s1):
+        current_row = [i + 1]
+        for j, c2 in enumerate(s2):
+            insertions = previous_row[j + 1] + 1
+            deletions = current_row[j] + 1
+            substitutions = previous_row[j] + (c1 != c2)
+            current_row.append(min(insertions, deletions, substitutions))
+        previous_row = current_row
+    
+    return previous_row[-1]
+
+def get_suggestions(trie, query, max_distance=2):
+    exact_matches = trie.search(query)
+    if exact_matches:
+        return exact_matches
+    
+    # Check for typos
+    all_words = trie.get_all_words()
+    suggestions = []
+    for word in all_words:
+        if len(word) >= len(query) - max_distance and \
+           len(word) <= len(query) + max_distance:
+            dist = levenshtein_distance(query, word[:len(query)])
+            if dist <= max_distance:
+                suggestions.append((dist, word))
+    
+    return [word for (dist, word) in sorted(suggestions)]</code></pre>
+            <p><strong>Optimizations:</strong></p>
+            <ul>
+              <li>Prefix caching for popular searches</li>
+              <li>Personalized ranking based on user history</li>
+              <li>Geospatial prioritization (nearby results first)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="evolution">
+    <div class="container">
+      <h2 class="section-title">7. Algorithm Evolution Timeline</h2>
+      <div class="about-content single-column">
+        <div class="about-text">
+          <table class="complexity-table">
+            <tr>
+              <th>Year</th>
+              <th>Technology</th>
+              <th>Algorithm</th>
+              <th>Improvement</th>
+              <th>Limitation</th>
+            </tr>
+            <tr>
+              <td>2005</td>
+              <td>Static Maps</td>
+              <td>Dijkstra's</td>
+              <td>Basic routing</td>
+              <td>Slow, no traffic</td>
+            </tr>
+            <tr>
+              <td>2009</td>
+              <td>Live Directions</td>
+              <td>A* Search</td>
+              <td>50% faster</td>
+              <td>Still not real-time</td>
+            </tr>
+            <tr>
+              <td>2012</td>
+              <td>Cross-Country</td>
+              <td>Contraction Hierarchies</td>
+              <td>100x speedup</td>
+              <td>Complex preprocessing</td>
+            </tr>
+            <tr>
+              <td>2015</td>
+              <td>Traffic-Aware</td>
+              <td>Time-Dependent Dijkstra's</td>
+              <td>Live adjustments</td>
+              <td>Requires traffic data</td>
+            </tr>
+            <tr>
+              <td>2017</td>
+              <td>Predictive Routing</td>
+              <td>LSTM Networks</td>
+              <td>Future traffic</td>
+              <td>Training complexity</td>
+            </tr>
+            <tr>
+              <td>2020</td>
+              <td>Hyper-Local</td>
+              <td>S2 Geometry</td>
+              <td>Instant geolocation</td>
+              <td>High precision needed</td>
+            </tr>
+          </table>
+          
+          <h3>Key Technical Transitions</h3>
+          <ol>
+            <li><strong>From static to dynamic:</strong> Incorporating real-time data</li>
+            <li><strong>From general to specialized:</strong> Different algorithms for different route types</li>
+            <li><strong>From reactive to predictive:</strong> Anticipating traffic before it happens</li>
+            <li><strong>From flat to hierarchical:</strong> Leveraging road importance (highways > streets)</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="future">
+  <div class="container">
+    <h2 class="section-title">9. Future of Mapping: Smarter & Faster</h2>
+    <div class="about-content single-column">
+      <div class="about-text">
+        <div class="algorithm-card">
+          <h3 class="algorithm-title">1. Quantum Routing (Faster Than Light Planning)</h3>
+          <p>Imagine delivery trucks that never get stuck in traffic. Quantum computers could make this real by:</p>
+          <ul>
+            <li><strong>Instant package routing:</strong> Calculate 1000+ delivery routes in milliseconds</li>
+            <li><strong>Traffic-proof paths:</strong> Find alternatives before jams even form</li>
+            <li><strong>Energy savings:</strong> Reduce fuel use by 30% with perfect routes</li>
+          </ul>
+          <div class="image-container2 mt-3">
+            <img src="quantum-routing.gif" class="img-fluid" alt="Quantum routing visualization">
+            <p>Quantum computers testing millions of routes at once</p>
+          </div>
+        </div>
+        
+        <div class="algorithm-card">
+          <h3 class="algorithm-title">2. AI That Predicts Your Destination</h3>
+          <p>Your phone will know where you're going before you do:</p>
+          <pre><code># Simplified prediction algorithm
+def predict_destination(user):
+    if user.morning_commute:
+        return user.work_address
+    elif user.calendar.has_event:
+        return event.location
+    else:
+        return ai.predict_based_on_habits(user)</code></pre>
+          <p><strong>How it helps:</strong> Maps loads faster because it preps your route in the background.</p>
+        </div>
+        
+        <div class="algorithm-card">
+          <h3 class="algorithm-title">3. Augmented Reality That Actually Works</h3>
+          <p>No more squinting at your phone screen:</p>
+          <ul>
+            <li><strong>Arrow-free navigation:</strong> Virtual path appears on real streets</li>
+            <li><strong>Indoor maps:</strong> Find products in stores like you're using GPS</li>
+            <li><strong>Danger alerts:</strong> See flashing warnings around blind corners</li>
+          </ul>
+          <div class="image-container2 mt-3">
+            <img src="ar-navigation.gif" class="img-fluid" alt="AR navigation demo">
+            <p>AR directions overlaid on real world</p>
+          </div>
+        </div>
+
+        <div class="algorithm-card">
+          <h3 class="algorithm-title">4. Self-Healing Maps</h3>
+          <p>Maps that fix themselves when roads change:</p>
+          <ul>
+            <li><strong>Satellite auto-updates:</strong> Detects new roads without human input</li>
+            <li><strong>Crowd-powered corrections:</strong> 1000 phones reporting a pothole = instant map update</li>
+            <li><strong>Construction foresight:</strong> Predicts temporary road closures before they happen</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="conclusion">
+  <div class="container">
+    <h2 class="section-title">10. Key Lessons for Better Maps</h2>
+    <div class="about-content single-column">
+      <div class="about-text">
+        <h3>What We've Learned</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="algorithm-card h-100">
+              <h4>The Speed Revolution</h4>
+              <p>From waiting seconds for directions to instant answers:</p>
+              <table class="table table-sm">
+                <tr><th>Year</th><th>Algorithm</th><th>Response Time</th></tr>
+                <tr><td>2005</td><td>Dijkstra's</td><td>5-10 seconds</td></tr>
+                <tr><td>2023</td><td>Contraction Hierarchies</td><td>0.1 seconds</td></tr>
+                <tr><td>2025+</td><td>Quantum Hybrids</td><td>Instant</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="algorithm-card h-100">
+              <h4>Efficiency Wins</h4>
+              <p>How modern maps save resources:</p>
+              <ul>
+                <li><strong>Battery:</strong> Uses 70% less power than 2010</li>
+                <li><strong>Data:</strong> 1MB can now store what needed 10MB before</li>
+                <li><strong>Accuracy:</strong> 99.9% correct ETAs vs 85% in 2015</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="mt-4">How to Build Better Maps</h3>
+        <div class="algorithm-card">
+          <h4>1. Think Like a Delivery Driver</h4>
+          <p>Real-world needs beat fancy algorithms:</p>
+          <ul>
+            <li><strong>Truck height matters:</strong> Low bridges kill routing</li>
+            <li><strong>Left turns waste time:</strong> UPS saves millions avoiding them</li>
+            <li><strong>Parking is half the battle:</strong> Great directions are useless if you can't park</li>
+          </ul>
+        </div>
+
+        <div class="algorithm-card">
+          <h4>2. Make Data Work Smarter</h4>
+          <p>Google's secret sauce isn't just more data - it's better data use:</p>
+          <pre><code># Instead of processing all data:
+process(all_global_data) # Slow!
+
+# Modern approach:
+def prioritize_data(region, time, user):
+    if user.in_car:
+        focus_on(roads, traffic)
+    elif user.walking:
+        focus_on(sidewalks, elevation)
+    # Uses 80% less computing power</code></pre>
+        </div>
+
+        <div class="algorithm-card">
+          <h4>3. The 3 Rules of Map Design</h4>
+          <div class="row">
+            <div class="col-md-4">
+              <h5>Fast > Perfect</h5>
+              <p>Users prefer 90% accurate directions NOW over perfect ones in 5 seconds</p>
+            </div>
+            <div class="col-md-4">
+              <h5>Predict > React</h5>
+              <p>Good maps anticipate problems (like predicting rush hour)</p>
+            </div>
+            <div class="col-md-4">
+              <h5>Simple > Clever</h5>
+              <p>If users don't understand it, the algorithm doesn't matter</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="alert alert-info mt-4">
+          <h4>The Bottom Line</h4>
+          <p>The best maps blend <strong>computer science</strong> with <strong>human behavior</strong>. No matter how advanced the tech gets, the goal remains the same: <em>"Get people where they need to go, with the least hassle possible."</em></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; Sagar Subhas Shegunashi. All Rights Reserved.</p>
+       </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const hamburger = document.querySelector('.hamburger');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        navLinks.classList.toggle('active');
+      });
+    }
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Close mobile menu if open
+        if (navLinks.classList.contains('active')) {
+          hamburger.classList.remove('active');
+          navLinks.classList.remove('active');
+        }
+        
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+    
+    // Highlight current section in navigation
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section');
+      const navItems = document.querySelectorAll('.nav-links a');
+      
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= sectionTop - 300) {
+          current = section.getAttribute('id');
+        }
+      });
+      
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href') === `#${current}`) {
+          item.classList.add('active');
+        }
+      });
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+  const gifs = document.querySelectorAll('.image-container2 img');
+  
+  gifs.forEach(gif => {
+    gif.style.width = '100%';
+    gif.style.height = '100%';
+    gif.style.objectFit = 'contain';
+    console.log('Forced image dimensions:', gif.clientWidth, gif.clientHeight);
+  });
+});
+  </script>
+</body>
+</html>
